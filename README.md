@@ -1,4 +1,5 @@
 # SQL Trainer Web Application
+SQL Trainer: An Interactive Tool for Learning and Practicing SQL Through Quizzes
 
 ## Technologies
 * Angular
