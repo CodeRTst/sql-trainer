@@ -1,0 +1,45 @@
+<div *ngIf="question">
+
+    <div class="d-flex align-items-center rounded-top-5 bar">
+        <button class="me-2" mat-icon-button (click)="previousQuestion()" [disabled]="isFirstQuestion"
+            matTooltip="Précédent">
+            <mat-icon class="icon-size">keyboard_double_arrow_left</mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="nextQuestion()" [disabled]="isLastQuestion" matTooltip="Suivant">
+            <mat-icon class="icon-size">keyboard_double_arrow_right</mat-icon>
+        </button>
+
+        <h1 class="flex-grow-1 mb-0 text-center" *ngIf="quiz"> {{title}} </h1>
+
+
+
+        <button class="me-5" mat-icon-button (click)="openClotureAttemptDialog()" [hidden]="isFinishOrCloture"
+            [disabled]="btnClotureDisable" matTooltip="Finir le quiz">
+            <mat-icon class="icon-size">disabled_by_default</mat-icon>
+        </button>
+    </div>
+
+    <h2 class="question-body" *ngIf="quiz"> {{ question.body }} </h2>
+
+    <div>
+        <span>Votre requête: </span>
+        <span *ngIf="!hasAnswered">(pas encore répondu)</span>
+    </div>
+
+    <code-editor [(ngModel)]="codeSql" [readOnly]="readOnly" [database]="database"></code-editor>
+
+    <div class="d-flex mt-3">
+        <button class="me-2" mat-raised-button [hidden]="btnSendHidden" [disabled]="btnSendDisable"
+            (click)="btnSendAction()">Envoyer</button>
+        <button class="me-2" mat-raised-button [hidden]="btnHidden" [disabled]="btnEraseDisable"
+            (click)="btnEraseAction()">Effacer</button>
+        <button class="me-2" mat-raised-button [hidden]="btnHidden" [disabled]="btnSolutionDisable"
+            (click)="btnSolutionAction()">Voir solution</button>
+    </div>
+
+    <div class="mt-2"> {{ question.answer?.timestamp }} </div>
+
+    <app-query [query]="query" [solutions]="solutions" [canDisplayQuery]="canDisplayQuery"></app-query>
+
+</div>

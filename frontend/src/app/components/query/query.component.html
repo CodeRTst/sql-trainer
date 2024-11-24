@@ -1,0 +1,40 @@
+<div class="py-4" *ngIf="query != undefined  && canDisplayQuery">
+    <div class="mb-5">
+        <div *ngIf="query.errors.length > 0">
+            <ul *ngFor="let item of query.errors">
+                <li class="text-danger"> {{item}} </li>
+            </ul>
+        </div>
+        <div *ngIf="query.errors.length == 0">
+            <p class="text-success">Votre requête a retourné une reponse correcte!</p>
+            <p class="text-success">Néanmoins comparer votre solution avec celle(s) ci-dessous pour voir si vous
+                n'avez pas eu un peu de chance...:-)</p>
+        </div>
+    </div>
+
+    <div *ngIf="query.queryAnswer != undefined && query.queryAnswer != null">
+        <table class="border table compact-table table-bordered table-striped"
+            [ngClass]="'border-' + color + '-subtle'">
+            <thead [ngClass]="'table-' + color">
+                <tr>
+                    <th *ngFor="let item of query.queryAnswer[0]" scope="col">{{ item }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of query.queryAnswer.slice(1); let i = index">
+                    <td *ngFor="let q of item">{{ q }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<div class="my-5 pb-5" *ngIf="solutions.length > 0">
+    <ul *ngFor="let item of solutions">
+        <li>
+            <h2>Solution {{ item.order }} </h2>
+            <span class="text-success"> {{ item.sql }} </span>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,25 @@
+.custom-inputs {
+  min-width: 400px;
+}
+
+.width-inputs-div {
+  width: fit-content;
+}
+
+.custom-label {
+  width: min-content;
+}
+
+.size-button {
+  height: 45px;
+  width: 45px;
+}
+
+.icon-size {
+  font-size: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+

@@ -1,0 +1,98 @@
+<form id="frm" class="form pt-5" [formGroup]="quizForm" novalidate>
+
+  <div class="d-flex justify-content-between flex-wrap">
+
+    <!-----------INPUTS NAME AND DESCRIPTION--------------------------------------------------------->
+    <div class="width-inputs-div pe-lg-5 d-sm-block">
+      <div class="row justify-content-between">
+        <label class="col custom-label text-nowrap" for="quiz-name">Nom du quiz:</label>
+        <mat-form-field class="col custom-inputs" appearance="outline">
+          <input matInput id="quiz-name" formControlName="name" required [readonly]="!isNew" placeholder="nom du quiz">
+          <mat-error class="field-error" *ngIf="name?.hasError('required')">Required</mat-error>
+          <mat-error class="field-error" *ngIf="name?.hasError('trimMinLength')">Minimum length is 3</mat-error>
+          <mat-error class="field-error" *ngIf="name?.hasError('nameUsed')">Pseudo already in use</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="row justify-content-between">
+        <label class="col custom-label" for="quiz-description">Description:</label>
+        <mat-form-field class="col custom-inputs" appearance="outline">
+          <textarea matInput formControlName="description" class="custom-width" id="quiz-description" rows="2"
+            placeholder="description"></textarea>
+          <mat-error class="field-error" *ngIf="description?.hasError('trimMinLength')">Minimum length is 3
+            </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-lg-around flex-wrap flex-grow-1">
+      <!-----------DATABASE-------------------------------------------------------------------------->
+      <mat-form-field class="align-self-start pe-5">
+        <mat-label>Base de données</mat-label>
+        <mat-select formControlName="database" name="database">
+          <mat-option *ngFor="let database of databases" [value]="database"> {{ database.name }} </mat-option>
+        </mat-select>
+        <mat-error class="field-error" *ngIf="database?.hasError('required')">Required</mat-error>
+      </mat-form-field>
+
+      <!-----------SLIDE TOGGLE---------------------------------------------------------------------->
+      <mat-slide-toggle formControlName="isPublished"> publié </mat-slide-toggle>
+    </div>
+
+  </div>
+
+
+  <div class="d-flex justify-content-between flex-wrap pb-5">
+    <div class="d-flex align-items-center flex-wrap">
+      <!---------------RADIO BUTTON---------------------------------------------------------------------->
+      <label class="pe-3 text-nowrap">Type de quiz:</label>
+      <mat-radio-group formControlName="isTest" class="pe-4">
+        <mat-radio-button [value]="false">Training</mat-radio-button>
+        <mat-radio-button [value]="true">Test</mat-radio-button>
+      </mat-radio-group>
+
+      <!---------------START DATE------------------------------------------------------------------------>
+      <mat-form-field *ngIf="isTest?.value == true" class="pe-1">
+        <mat-label>Start date</mat-label>
+        <input matInput [matDatepicker]="startDatePicker" formControlName="startDate">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #startDatePicker></mat-datepicker>
+        <mat-error class="field-error" *ngIf="startDate?.hasError('required')">Required</mat-error>
+      </mat-form-field>
+
+      <!---------------END DATE--------------------------------------------------------------------------->
+      <mat-form-field *ngIf="isTest?.value == true" class="pe-1">
+        <mat-label>End date</mat-label>
+        <input matInput [matDatepicker]="endDatePicker" formControlName="endDate">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #endDatePicker></mat-datepicker>
+        <mat-error class="field-error" *ngIf="endDate?.hasError('required')">Required</mat-error>
+        <mat-error class="field-error" *ngIf="endDate?.hasError('maxDate')">Date must be superior of
+          startDate</mat-error>
+      </mat-form-field>
+
+    </div>
+
+
+    <!---------------SAVE & DELETE--------------------------------------------------------------------------->
+    <div class="row">
+      <button mat-icon-button [disabled]="!quizForm.valid" class="size-button" (click)="onSubmit()">
+        <mat-icon class="icon-size">save</mat-icon>
+      </button>
+
+      <button mat-icon-button color="warn" [disabled]="isNew" class="size-button" (click)="openDeleteQuizDialog()">
+        <mat-icon class="icon-size">delete_forever</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!---------------------QUESTIONS--------------------------------------------------------------------------->
+  <app-question-validation [quizForm]="quizForm"></app-question-validation>
+
+  <br><br>
+
+  <!--{{this.quizForm.value | json}}-->
+
+</form>

@@ -1,0 +1,4 @@
+.compact-table {
+    width: auto; /* Utilisez la largeur automatique */
+    margin: 0;   /* Supprimez les marges pour minimiser l'espace utilisé */
+  }

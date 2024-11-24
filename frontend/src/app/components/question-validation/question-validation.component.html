@@ -1,0 +1,50 @@
+<div class="d-flex flex-column" [formGroup]="quizForm">
+    <mat-error class="field-error text-end pb-2"> {{getTopError()}}</mat-error>
+
+    <div formArrayName="questions">
+        <mat-accordion *ngIf="questionArray.controls.length > 0">
+            <mat-expansion-panel *ngFor="let question of questionArray.controls; let i = index" [formGroupName]="i">
+
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        question {{i+1}}
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div>
+
+                    <div class="row">
+                        <button mat-icon-button [disabled]="i == questionArray.controls.length - 1"
+                            (click)="moveQuestion(i, 1)">
+                            <mat-icon class="icon-size">keyboard_arrow_down</mat-icon>
+                        </button>
+                        <button mat-icon-button [disabled]="i == 0" (click)="moveQuestion(i, -1)">
+                            <mat-icon class="icon-size">keyboard_arrow_up</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="removeQuestion(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+
+                    <div class="d-flex flex-column py-2">
+                        <label [for]="'question' + (i + 1)">intitulé:</label>
+                        <textarea matInput formControlName="body" [id]="'question' + (i + 1)" appearance="outline"
+                            placeholder="Entrez l'intitulé d'une question." class="text-secondary"></textarea>
+                    </div>
+
+                    <!---------------SOLUTIONS--------------------------------------------------------------------------->
+                    <app-solution-validation [questionForm]="getQuestion(i)"></app-solution-validation>
+
+                </div>
+
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+
+    <div class="d-flex justify-content-end pb-5 pt-2">
+        <button mat-mini-fab color="primary" (click)="addQuestion()" matTooltip="ajouter une question">
+            <mat-icon class="icon-size">add</mat-icon>
+        </button>
+    </div>
+
+</div>
